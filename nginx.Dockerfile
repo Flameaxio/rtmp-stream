@@ -1,4 +1,4 @@
-# Launch with docker run -d -p 1935:1935 --name rtmp-nginx rtmp-nginx
+# Launch with docker run -d -p 1935:1935 -p 80:80 --name rtmp-nginx rtmp-nginx
 
 FROM tiangolo/nginx-rtmp
 

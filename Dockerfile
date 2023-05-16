@@ -22,7 +22,19 @@ FROM base as build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential
+    apt-get install --no-install-recommends -y build-essential curl
+
+# Install nodejs for vite
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null
+RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install yarn
+
+# Get node_modules from cache
+COPY --link package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --check-files
 
 # Install application gems
 COPY --link Gemfile Gemfile.lock ./
