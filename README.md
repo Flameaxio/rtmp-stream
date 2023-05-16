@@ -1,24 +1,13 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Ruby 3.1.0
 
-Things you may want to cover:
+Rails 7.1
 
-* Ruby version
+Run `docker compose up`
 
-* System dependencies
+Stream on `rtmp://localhost:1935/live` with key `test`
 
-* Configuration
+Watch on `rtmp://localhost:1935/live/test`
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Rails can reject stream through /stream endpoint (currently allows all)
