@@ -24,6 +24,7 @@ services:
     volumes:
       - .:/app
       - ./node_modules:/app/node_modules
+      - ./tmp/vods:/app/public/vods
 
   nginx:
     build:
@@ -37,6 +38,8 @@ services:
         - rails
     networks:
         - backend
+    volumes:
+      - ./tmp/vods:/tmp/vods
 
 volumes:
   dbdata:

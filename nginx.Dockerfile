@@ -3,3 +3,5 @@
 FROM tiangolo/nginx-rtmp
 
 COPY nginx.conf /etc/nginx/nginx.conf
+RUN addgroup --gid 1024 group
+RUN usermod -a -G group root

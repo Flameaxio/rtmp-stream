@@ -58,6 +58,8 @@ FROM base
 
 # Run and own the application files as a non-root user for security
 RUN useradd rails --home /rails --shell /bin/bash
+RUN addgroup --gid 1024 group
+RUN usermod -a -G group rails
 USER rails:rails
 
 # Copy built artifacts: gems, application
