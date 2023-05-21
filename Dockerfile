@@ -22,7 +22,7 @@ FROM base as build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl
+    apt-get install --no-install-recommends -y build-essential curl libpq-dev
 
 # Install nodejs for vite
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
@@ -55,6 +55,10 @@ RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
 # Final stage for app image
 FROM base
 
+# Install packages needed to run the application
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y libpq5 && \
+    rm -rf /var/lib/apt/lists/*
 
 # Run and own the application files as a non-root user for security
 RUN useradd rails --home /rails --shell /bin/bash
