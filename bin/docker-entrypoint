@@ -1,7 +1,9 @@
 #!/bin/bash -e
 
+echo "Running entrypoint script..."
+
 # If running the rails server then create or migrate existing database
-if [ "${*}" == "./bin/rails server" ]; then
+if [ "${*}" == "./bin/rails server -b 0.0.0.0" ]; then
   ./bin/rails db:prepare
 fi
 
