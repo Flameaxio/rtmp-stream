@@ -20,11 +20,19 @@ services:
         - backend
     environment:
       - MONGODB_URL=mongodb://mongodb:27018/rtmp
+      - REDIS_URL=redis://redis:6380/0
       - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
     volumes:
       - .:/app
       - ./node_modules:/app/node_modules
       - ./tmp/vods:/app/public/vods
+
+  redis:
+    image: redis:6.2.5
+    ports:
+      - '6380:6379'
+    networks:
+        - backend
 
   nginx:
     build:
