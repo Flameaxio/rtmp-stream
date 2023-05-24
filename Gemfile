@@ -75,3 +75,5 @@ gem 'dockerfile-rails', '>= 1.2', :group => :development
 gem "pg", "~> 1.5"
 
 gem "devise", "~> 4.9"
+
+gem 'haml-rails'

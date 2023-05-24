@@ -2,7 +2,20 @@
 
 class Api::V1::StreamsController < Api::ApplicationApiController
   def stream
-    Rails.logger.info('Hit stream endpoint!')
-    render json: { message: 'Hello from the stream endpoint!' }, status: :ok
+    user = User.find_by(stream_key: params[:name])
+    render(json: { message: 'User not found' }, status: :not_found) && return unless user
+
+    user.streaming!
+
+    render(json: { message: 'OK' }, status: :ok)
+  end
+
+  def stream_done
+    user = User.find_by(stream_key: params[:name])
+    render(json: { message: 'User not found' }, status: :not_found) && return unless user
+
+    user.offline!
+
+    render(json: { message: 'OK' }, status: :ok)
   end
 end

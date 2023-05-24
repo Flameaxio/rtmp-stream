@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   post '/stream', to: 'api/v1/streams#stream'
+  post '/stream_done', to: 'api/v1/streams#stream_done'
+
+  resources :users, only: [:show]
 end

@@ -15,14 +15,16 @@ console.log('Visit the guide for more information: ', 'https://vite-ruby.netlify
 
 // Example: Load Rails libraries in Vite.
 //
-import * as Turbo from '@hotwired/turbo'
-Turbo.start()
+import '@hotwired/turbo-rails'
+import M from '@materializecss/materialize'
+
+M.AutoInit(document.body)
 //
 // import ActiveStorage from '@rails/activestorage'
 // ActiveStorage.start()
 //
 // // Import all channels.
 // const channels = import.meta.globEager('./**/*_channel.js')
-
+document.documentElement.setAttribute('theme', 'dark');
 // Example: Import a stylesheet in app/frontend/index.css
 // import '~/index.css'

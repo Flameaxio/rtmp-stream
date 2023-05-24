@@ -22,7 +22,7 @@ services:
     networks:
         - backend
     environment:
-      - REDIS_URL=redis://redis:6380/0
+      - REDIS_URL=redis://redis:6379/0
       - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
       - POSTGRES_URL=postgres://flameaxe:123456@postgres:5432
     volumes:
