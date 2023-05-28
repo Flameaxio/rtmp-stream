@@ -24,3 +24,4 @@ jobs:
           ssh_host: 64.226.107.38
           ssh_private_key: ${{ secrets.DROPLET_SSH_PRIVATE_KEY }}
           ssh_user: ${{ secrets.DROPLET_SSH_USER }}
+          docker_compose_filename: docker-compose.yml
