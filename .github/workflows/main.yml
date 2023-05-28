@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: DamianReeves/write-file-action@master
+        with:
+          path: ${{ github.workspace }}/.env
+          contents: |
+            export RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }}
+          write-mode: append
+
+      - uses: alex-ac/github-action-ssh-docker-compose@master
+        name: Docker-Compose Remote Deployment
+        with:
+          ssh_host: 64.226.107.38
+          ssh_private_key: ${{ secrets.DROPLET_SSH_PRIVATE_KEY }}
+          ssh_user: ${{ secrets.DROPLET_SSH_USER }}
