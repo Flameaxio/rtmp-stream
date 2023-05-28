@@ -11,6 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Copy database.yml
+        uses: canastro/copy-file-action@master
+        with:
+          source: "config/database.example.yml"
+          target: "config/database.yml"
+
       - uses: DamianReeves/write-file-action@master
         with:
           path: ${{ github.workspace }}/.env
