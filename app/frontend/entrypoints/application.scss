@@ -1,6 +1,20 @@
-@import "https://fonts.googleapis.com/icon?family=Material+Icons";
-@import "@materializecss/materialize/sass/materialize.scss";
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import '@materializecss/materialize/sass/materialize.scss';
 
 body {
   background-color: #121212;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+label {
+  color: var(--primary-color) !important;
+  span {
+    color: var(--font-color-main) !important;
+  }
 }

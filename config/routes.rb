@@ -8,5 +8,7 @@ Rails.application.routes.draw do
   post '/stream', to: 'api/v1/streams#stream'
   post '/stream_done', to: 'api/v1/streams#stream_done'
 
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    resources :chat_messages, only: [:create]
+  end
 end

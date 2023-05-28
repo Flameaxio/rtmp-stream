@@ -1,0 +1,30 @@
+<%= content_for(:body_attributes, 'data-turbolinks=false') %>
+
+<%= turbo_stream_from(@user, :messages) %>
+
+<div class="row stream" data-controller="stream">
+    <video class="col s11 hiddendiv" controls crossorigin playsinline poster="<%= vite_asset_path('images/default_thumbnail.webp') %>"></video>
+  <div class="col s1">
+    <div class="chat right-align">
+      <h6>Chat</h6>
+      <div id="messages" class="messages <%= dom_id(@user) %>">
+        <%= render 'messages', messages: @messages %>
+      </div>
+      <div class="write-message">
+        <%= form_with url: user_chat_messages_path(@user), method: :post, id: 'message-form', data: { action: 'submit->stream#submit' } do |f| %>
+          <div class="input-field">
+            <%= f.text_field :body, required: true, data: { 'stream-target': 'message'}, disabled: current_user.blank? %>
+            <%= f.label :body, current_user.blank? ? 'Log in to write a message' : 'Write your message'  %>
+          </div>
+          <%= f.submit 'Send', class: 'btn waves-effect', disabled: current_user.blank? %>
+        <% end %>
+      </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+  window.streamKey = '<%= @user.stream_key %>';
+</script>
+<%= vite_stylesheet_tag 'stream.scss' %>

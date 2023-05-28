@@ -1,0 +1,78 @@
+@import 'plyr/dist/plyr.css';
+
+.stream {
+  max-height: 521px;
+  display: flex;
+  flex: 1;
+}
+
+.chat {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 15px;
+  background-color: var(--surface-color);
+  height: 521px;
+  max-height: 521px;
+}
+
+.write-message {
+  height: 20%;
+  border-top: 1px solid gray;
+}
+
+.messages {
+  height: 100%;
+  overflow-y: scroll;
+  background-color: var(--background-color-level-4dp);
+  border-bottom: 1px solid gray;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.messages > :nth-of-type(odd) {
+  background-color: var(--background-color-level-4dp);
+}
+
+.messages > :nth-of-type(even) {
+  background-color: var(--background-color-level-16dp-solid);
+}
+
+.messages::-webkit-scrollbar {
+  width: 10px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.messages:hover::-webkit-scrollbar-thumb {
+  background: var(--background-color-level-16dp-solid);
+}
+
+.message {
+  text-align: start;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.sender-handle {
+  font-weight: bold;
+  color: #b00100;
+}
+
+.timestamp {
+  color: gray;
+  font-size: 0.8em;
+  vertical-align: text-top;
+}
+
+h6 {
+  align-self: center;
+}

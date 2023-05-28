@@ -1,0 +1,7 @@
+<div class="message">
+  <div class="content">
+    <span class="sender-handle"><%= message.sender.handle %>: </span>
+    <span><%= message.body %></span>
+  </div>
+  <span class="timestamp"><%= message.created_at.strftime("%H:%M") %></span>
+</div>

@@ -1,8 +1,8 @@
 <div class="s3" id="<%= dom_id(stream) %>">
-  <%= link_to(stream, style: 'text-decoration: none; color: inherit;') do %>
+  <%= link_to(stream, style: 'text-decoration: none; color: inherit;', data: { 'data-turbolinks': "false" }) do %>
     <div class="card">
       <div class="card-image">
-        <%= vite_image_tag 'images/default_thumbnail.webp', style: 'aspect-ratio: 16 / 9;' %>
+        <img src="thumbnails/<%= stream.stream_key %>.png" alt="thumb" onerror="this.src='<%= vite_asset_path('images/default_thumbnail.webp') %>'">
       </div>
       <div class="card-content">
         <span class="card-title"><%= stream.stream_configuration.title %></span>

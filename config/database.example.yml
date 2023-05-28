@@ -17,5 +17,5 @@ test:
   database: rtmp_test
 
 production:
-    <<: *default
-    database: rtmp_production
+  <<: *default
+  database: rtmp_production

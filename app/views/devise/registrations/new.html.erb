@@ -1,0 +1,42 @@
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="row" style="gap: 10px;">
+    <div class="input-field col s12">
+      <%= f.text_field :first_name, autofocus: true %>
+      <%= f.label :first_name %>
+    </div>
+    <div class="input-field col s12">
+      <%= f.text_field :last_name %>
+      <%= f.label :last_name %>
+    </div>
+    <div class="input-field col s12">
+      <%= f.text_field :handle %>
+      <%= f.label :handle %>
+    </div>
+    <div class="input-field col s12">
+      <%= f.email_field :email, autocomplete: "email" %>
+      <%= f.label :email %>
+    </div>
+    <div class="input-field col s12">
+      <%= f.password_field :password, autocomplete: "new-password" %>
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %>
+    </div>
+    <div class="input-field col s12">
+      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+      <%= f.label :password_confirmation %>
+    </div>
+    <div class="actions col offset-s11 s1">
+      <%= f.submit "Sign up", class: 'waves-effect waves-light btn' %>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <%= render "devise/shared/links" %>
+</div>

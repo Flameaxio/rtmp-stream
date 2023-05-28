@@ -5,8 +5,15 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :rememberable, :validatable
 
+  has_many :sent_chat_messages, class_name: 'ChatMessage', foreign_key: :sender_id, inverse_of: :sender,
+                                dependent: :nullify
+  has_many :received_chat_messages, class_name: 'ChatMessage', foreign_key: :receiver_id, inverse_of: :receiver,
+                                    dependent: :nullify
+
   enum status: { offline: 0, online: 1, streaming: 2 }
   attribute :stream_configuration, StreamConfigurationType.new
+
+  validates :first_name, :last_name, :handle, presence: true
 
   before_create -> { self.stream_key = SecureRandom.hex(16) }
 
@@ -20,12 +27,10 @@ class User < ApplicationRecord
 
   def update_streams_list
     if offline?
-      Rails.logger.info 'Broadcasting User to streams'
       broadcast_remove_to('streams')
       return
     end
     if streaming?
-      Rails.logger.info 'Broadcasting User to streams'
       broadcast_append_to('streams', target: 'streams', partial: 'home/stream', locals: { stream: self })
     end
   end

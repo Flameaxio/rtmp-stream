@@ -1,4 +1,3 @@
-
 version: '3.8'
 services:
   postgres:
@@ -6,10 +5,10 @@ services:
     ports:
       - '5433:5432'
     networks:
-        - backend
+      - backend
     environment:
-        - POSTGRES_USER=flameaxe
-        - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=flameaxe
+      - POSTGRES_PASSWORD=123456
     volumes:
       - dbdata:/var/lib/postgresql/data
 
@@ -18,9 +17,9 @@ services:
     ports:
       - '3001:3001'
     depends_on:
-        - postgres
+      - postgres
     networks:
-        - backend
+      - backend
     environment:
       - REDIS_URL=redis://redis:6379/0
       - RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
@@ -35,20 +34,20 @@ services:
     ports:
       - '6380:6379'
     networks:
-        - backend
+      - backend
 
   nginx:
     build:
       context: .
       dockerfile: nginx.Dockerfile
     ports:
-        - '80:80'
-        - '443:443'
-        - '1935:1935'
+      - '80:80'
+      - '443:443'
+      - '1935:1935'
     depends_on:
-        - rails
+      - rails
     networks:
-        - backend
+      - backend
     volumes:
       - ./tmp/vods:/tmp/vods
 
@@ -56,5 +55,5 @@ volumes:
   dbdata:
 
 networks:
-    backend:
-      driver: bridge
+  backend:
+    driver: bridge
