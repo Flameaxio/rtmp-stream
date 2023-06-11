@@ -15,7 +15,7 @@ services:
   rails:
     build: .
     ports:
-      - '3001:3001'
+      - '25565:3000'
     depends_on:
       - postgres
     networks:
@@ -36,20 +36,18 @@ services:
     networks:
       - backend
 
-  nginx:
+  open_media_engine:
     build:
       context: .
-      dockerfile: nginx.Dockerfile
+      dockerfile: oem.Dockerfile
     ports:
-      - '80:80'
-      - '443:443'
       - '1935:1935'
-    depends_on:
-      - rails
-    networks:
-      - backend
-    volumes:
-      - ./tmp/vods:/tmp/vods
+      - '9999:9999/udp'
+      - '9000:9000'
+      - '3333:3333'
+      - '3334:3334'
+      - '3478:3478'
+      - '10000-10009:10000-10009/udp'
 
 volumes:
   dbdata:
