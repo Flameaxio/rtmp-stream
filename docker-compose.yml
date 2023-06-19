@@ -36,7 +36,7 @@ services:
     networks:
       - backend
 
-  open_media_engine:
+  oven_media_engine:
     build:
       context: .
       dockerfile: oem.Dockerfile
@@ -48,6 +48,21 @@ services:
       - '3334:3334'
       - '3478:3478'
       - '10000-10009:10000-10009/udp'
+      - '20080:20080'
+    networks:
+        - backend
+
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - rails
+    networks:
+      - backend
 
 volumes:
   dbdata:

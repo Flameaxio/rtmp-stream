@@ -46,61 +46,12 @@
 		</Managers>
 		-->
 		<Providers>
-			<!-- Pull providers -->
-			<RTSPC>
-				<WorkerCount>1</WorkerCount>
-			</RTSPC>
-			<OVT>
-				<WorkerCount>1</WorkerCount>
-			</OVT>
-			<!-- Push providers -->
 			<RTMP>
 				<Port>${env:OME_RTMP_PROV_PORT:1935}</Port>
 				<WorkerCount>1</WorkerCount>
 			</RTMP>
-			<SRT>
-				<Port>${env:OME_SRT_PROV_PORT:9999}</Port>
-				<WorkerCount>1</WorkerCount>
-			</SRT>
-			<!--
-			<MPEGTS>
-					<- Listen on port 4000
-					This is just a demonstration to show that you can configure the port in several ways ->
-					<Port>${env:OME_MPEGTS_PROV_PORT:4000-4001,4004,4005/udp}</Port>
-				<Port>${env:OME_MPEGTS_PROV_PORT:4000-4005/udp}</Port>
-			</MPEGTS>
-			-->
-			<WebRTC>
-				<Signalling>
-					<Port>${env:OME_WEBRTC_SIGNALLING_PORT:3333}</Port>
-					<TLSPort>${env:OME_WEBRTC_SIGNALLING_TLS_PORT:3334}</TLSPort>
-					<WorkerCount>1</WorkerCount>
-				</Signalling>
-				<IceCandidates>
-					<IceCandidate>${env:OME_HOST_IP:*}:${env:OME_WEBRTC_CANDIDATE_PORT:10000-10004/udp}</IceCandidate>
-					<TcpRelay>${env:OME_HOST_IP:*}:${env:OME_WEBRTC_TCP_RELAY_PORT:3478}</TcpRelay>
-					<TcpForce>true</TcpForce>
-					<TcpRelayWorkerCount>1</TcpRelayWorkerCount>
-				</IceCandidates>
-			</WebRTC>
 		</Providers>
-
 		<Publishers>
-			<!-- The OVT is protocol for ORIGIN-EDGE -->
-			<OVT>
-				<Port>${env:OME_ORIGIN_PORT:9000}</Port>
-				<WorkerCount>1</WorkerCount>
-			</OVT>
-			<LLHLS>
-				<!-- 
-				OME only supports h2, so LLHLS works over HTTP/1.1 on non-TLS port. 
-				Note that LLHLS runs higher performance over HTTP/2.
-				Therefore, it is recommended to use TLS Port.
-				-->
-				<Port>${env:OME_LLHLS_STREAM_PORT:3333}</Port>
-				<TLSPort>${env:OME_LLHLS_STREAM_TLS_PORT:3334}</TLSPort>
-				<WorkerCount>1</WorkerCount>
-			</LLHLS>
 			<WebRTC>
 				<Signalling>
 					<Port>${env:OME_WEBRTC_SIGNALLING_PORT:3333}</Port>
@@ -114,6 +65,9 @@
 					<TcpRelayWorkerCount>1</TcpRelayWorkerCount>
 				</IceCandidates>
 			</WebRTC>
+			<Thumbnail>
+				<Port>20080</Port>
+			</Thumbnail>
 		</Publishers>
 	</Bind>
 
@@ -125,18 +79,17 @@
 		<VirtualHost include="VHost*.xml" />
 		<VirtualHost>
 			<Name>default</Name>
-			<!--Distribution is a value that can be used when grouping the same vhost distributed across multiple servers. This value is output to the events log, so you can use it to aggregate statistics. -->
 			<Distribution>ovenmediaengine.com</Distribution>
+
+			<AdmissionWebhooks>
+				<ControlServerUrl>http://rails:3000/update_stream</ControlServerUrl>
+				<Enables>
+					<Providers>rtmp</Providers>
+				</Enables>
+			</AdmissionWebhooks>
 			
-			<!-- Settings for multi ip/domain and TLS -->
 			<Host>
 				<Names>
-					<!-- Host names
-						<Name>stream1.airensoft.com</Name>
-						<Name>stream2.airensoft.com</Name>
-						<Name>*.sub.airensoft.com</Name>
-						<Name>192.168.0.1</Name>
-					-->
 					<Name>*</Name>
 				</Names>
 				<TLS>
@@ -146,38 +99,10 @@
 				</TLS>
 			</Host>
 
-			<!-- Refer https://airensoft.gitbook.io/ovenmediaengine/signedpolicy
-			<SignedPolicy>
-				<PolicyQueryKeyName>policy</PolicyQueryKeyName>
-				<SignatureQueryKeyName>signature</SignatureQueryKeyName>
-				<SecretKey>aKq#1kj</SecretKey>
-
-				<Enables>
-					<Providers>rtmp,webrtc,srt</Providers>
-					<Publishers>webrtc,hls,llhls,dash,lldash</Publishers>
-				</Enables>
-			</SignedPolicy>
-			-->
-
-			<!--
-			<OriginMapStore>
-				In order to use OriginMap, you must enable OVT Publisher in Origin and OVT Provider in Edge.
-				<RedisServer>
-					<Host>192.168.0.160:6379</Host>
-					<Auth>!@#ovenmediaengine</Auth>
-				</RedisServer>
-				
-				This is only needed for the origin server and used to register the ovt address of the stream. 
-				<OriginHostName>${env:OME_HOST_IP:192.168.0.160}</OriginHostName>
-			</OriginMapStore>
-			-->
-
-			<!-- Default CORS Settings -->
 			<CrossDomains>
 				<Url>*</Url>
 			</CrossDomains>
 
-			<!-- Settings for applications -->
 			<Applications>
 				<Application>
 					<Name>app</Name>
@@ -187,56 +112,33 @@
 						<OutputProfile>
 							<Name>bypass_stream</Name>
 							<OutputStreamName>${OriginStreamName}</OutputStreamName>
-
-							<!-- 
-							You can provide ABR with Playlist. Currently, ABR is only supported in LLHLS.
-							
 							<Playlist>
-								<Name>Paid</Name>
-								You can play this playlist with 
-								LLHLS : http[s]://<domain>[:port]/<app>/<stream>/<FileName>.m3u8 
-								WebRTC : ws[s]://<domain>[:port]/<app>/<stream>/<FileName>
-								Note that the keywords "playlist" and "chunklist" MUST NOT be included in FileName.
-								<FileName>premium</FileName>
-
-								Options is optional. 
+								<Name>For WebRTC</Name>
+								<FileName>webrtc</FileName>
 								<Options>
-									WebRtcAutoAbr : Default value is true
-									<WebRtcAutoAbr>true</WebRtcAutoAbr> 
+									<WebRtcAutoAbr>true</WebRtcAutoAbr>
 								</Options>
-
 								<Rendition>
-									<Name>bypass</Name>
+									<Name>Source</Name>
 									<Video>bypass_video</Video>
-									<Audio>bypass_audio</Audio>
+									<Audio>opus_audio</Audio>
 								</Rendition>
 								<Rendition>
-									<Name>480p</Name>
-									<Video>480p</Video>
-									<Audio>bypass_audio</Audio>
+									<Name>1080p60fps</Name>
+									<Video>video_1080</Video>
+									<Audio>opus_audio</Audio>
 								</Rendition>
 								<Rendition>
-									<Name>720p</Name>
-									<Video>720p</Video>
-									<Audio>bypass_audio</Audio>
+									<Name>720p60fps</Name>
+									<Video>video_720</Video>
+									<Audio>opus_audio</Audio>
 								</Rendition>
 							</Playlist>
-							<Playlist>
-								<Name>free</Name>
-								<FileName>free</FileName>
-								<Rendition>
-									<Name>720p</Name>
-									<Video>720p</Video>
-									<Audio>bypass_audio</Audio>
-								</Rendition>
-							</Playlist>
-							-->
-
 							<Encodes>
-								<Video>
-									<Name>bypass_video</Name>
+								<Audio>
+									<Name>bypass_audio</Name>
 									<Bypass>true</Bypass>
-								</Video>
+								</Audio>
 								<Audio>
 									<Name>aac_audio</Name>
 									<Codec>aac</Codec>
@@ -257,26 +159,35 @@
 										<Codec>eq</Codec>
 									</BypassIfMatch>									
 								</Audio>
-								<!-- 							
+
 								<Video>
-									<Name>video_1280</Name>
+									<Name>bypass_video</Name>
+									<Bypass>true</Bypass>
+								</Video>
+								<Video>
+									<Name>video_1080</Name>
 									<Codec>h264</Codec>
-									<Bitrate>5024000</Bitrate>
-									<Framerate>30</Framerate>
+									<Bitrate>60000</Bitrate>
+									<Framerate>60</Framerate>
 									<Width>1920</Width>
-									<Height>1280</Height>
-									<Preset>faster</Preset>
+									<Height>1080</Height>
+									<Preset>slower</Preset>
 								</Video>
 								<Video>
 									<Name>video_720</Name>
 									<Codec>h264</Codec>
-									<Bitrate>2024000</Bitrate>
-									<Framerate>30</Framerate>
+									<Bitrate>60000</Bitrate>
+									<Framerate>60</Framerate>
 									<Width>1280</Width>
 									<Height>720</Height>
-									<Preset>faster</Preset>
+									<Preset>slower</Preset>
 								</Video>
-								-->
+								<Image>
+									<Codec>jpeg</Codec>
+									<Framerate>1</Framerate>
+									<Width>1280</Width>
+									<Height>720</Height>
+								</Image>
 							</Encodes>
 						</OutputProfile>
 					</OutputProfiles>
@@ -291,57 +202,21 @@
 						<RTMP>
 							<BlockDuplicateStreamName>true</BlockDuplicateStreamName>
 						</RTMP>
-						<SRT />
-						<RTSPPull />
-						<!-- <MPEGTS>
-							<StreamMap>
-									<- Set the stream name of the client connected to the port to "stream_${Port}"
-									For example, if a client connets to port 4000, OME creates a "stream_4000" stream ->
-									<Stream>
-										<Name>stream_${Port}</Name>
-										<Port>4000,4001-4004</Port>
-									</Stream>
-									<Stream>
-										<Name>stream_4005</Name>
-										<Port>4005</Port>
-									</Stream>
-								<Stream>
-									<Name>stream_${Port}</Name>
-									<Port>${env:OME_MPEGTS_PROV_PORT:4000-4005/udp}</Port>
-								</Stream>
-							</StreamMap>
-						</MPEGTS> -->
 					</Providers>
 					<Publishers>
 						<AppWorkerCount>1</AppWorkerCount>
 						<StreamWorkerCount>8</StreamWorkerCount>
-						<OVT />
 						<WebRTC>
 							<Timeout>30000</Timeout>
 							<Rtx>false</Rtx>
 							<Ulpfec>false</Ulpfec>
 							<JitterBuffer>false</JitterBuffer>
 						</WebRTC>
-						<LLHLS>
-							<OriginMode>true</OriginMode>
-							<!--
-							<CacheControl>
-								<MasterPlaylistMaxAge>0</MasterPlaylistMaxAge>
-								<ChunklistMaxAge>0</ChunklistMaxAge>
-								<ChunklistWithDirectivesMaxAge>60</ChunklistWithDirectivesMaxAge>
-								<SegmentMaxAge>-1</SegmentMaxAge>
-								<PartialSegmentMaxAge>-1</PartialSegmentMaxAge>
-							</CacheControl>
-							-->
-							<ChunkDuration>0.5</ChunkDuration>
-							<!-- PartHoldBack SHOULD be at least three times the Part Target Duration -->
-							<PartHoldBack>1.5</PartHoldBack>
-							<SegmentDuration>6</SegmentDuration>
-							<SegmentCount>10</SegmentCount>
+						<Thumbnail>
 							<CrossDomains>
 								<Url>*</Url>
 							</CrossDomains>
-						</LLHLS>
+						</Thumbnail>
 					</Publishers>
 				</Application>
 			</Applications>

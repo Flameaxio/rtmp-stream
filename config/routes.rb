@@ -5,10 +5,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root to: 'home#index'
 
-  post '/stream', to: 'api/v1/streams#stream'
-  post '/stream_done', to: 'api/v1/streams#stream_done'
+  post '/update_stream', to: 'api/v1/streams#update_stream'
 
   resources :users, only: [:show] do
     resources :chat_messages, only: [:create]
+  end
+
+  direct :thumbnail do |model|
+    "#{request.protocol}#{request.host}:20080/app/#{model.handle}/thumb.jpg"
   end
 end

@@ -6,9 +6,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :rememberable, :validatable
 
   has_many :sent_chat_messages, class_name: 'ChatMessage', foreign_key: :sender_id, inverse_of: :sender,
-                                dependent: :nullify
+                                dependent: :destroy
   has_many :received_chat_messages, class_name: 'ChatMessage', foreign_key: :receiver_id, inverse_of: :receiver,
-                                    dependent: :nullify
+                                    dependent: :destroy
 
   enum status: { offline: 0, online: 1, streaming: 2 }
   attribute :stream_configuration, StreamConfigurationType.new
