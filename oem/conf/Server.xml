@@ -171,7 +171,7 @@
 									<Framerate>60</Framerate>
 									<Width>1920</Width>
 									<Height>1080</Height>
-									<Preset>slower</Preset>
+									<Preset>faster</Preset>
 								</Video>
 								<Video>
 									<Name>video_720</Name>
@@ -180,7 +180,7 @@
 									<Framerate>60</Framerate>
 									<Width>1280</Width>
 									<Height>720</Height>
-									<Preset>slower</Preset>
+									<Preset>faster</Preset>
 								</Video>
 								<Image>
 									<Codec>jpeg</Codec>
