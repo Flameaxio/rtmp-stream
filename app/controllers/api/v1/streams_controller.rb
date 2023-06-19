@@ -1,21 +1,41 @@
 # frozen_string_literal: true
 
 class Api::V1::StreamsController < Api::ApplicationApiController
-  def stream
-    user = User.find_by(stream_key: params[:name])
-    render(json: { message: 'User not found' }, status: :not_found) && return unless user
+  before_action :find_user
 
-    user.streaming!
+  UPDATE_PATHS = {
+    'opening' => ->(user) { user.streaming! },
+    'closing' => ->(user) { user.offline! }
+  }.freeze
 
-    render(json: { message: 'OK' }, status: :ok)
+  def update_stream
+    unless UPDATE_PATHS.key?(request_params[:status])
+      Rails.logger.info("Action not found: #{request_params[:status]}")
+      render(json: { message: 'Action not found' }, status: :not_found) && return
+    end
+
+    UPDATE_PATHS[request_params[:status]].call(@user)
+
+    render(json: { allowed: true, new_url: stream_url }, status: :ok)
   end
 
-  def stream_done
-    user = User.find_by(stream_key: params[:name])
-    render(json: { message: 'User not found' }, status: :not_found) && return unless user
+  private
 
-    user.offline!
+  def request_params
+    params[:request]
+  end
 
-    render(json: { message: 'OK' }, status: :ok)
+  def stream_url
+    @_stream_url ||= begin
+      incoming_url = URI::parse(request_params[:url].to_s)
+      incoming_url.path = ['', 'app', @user.handle].join('/')
+      incoming_url.scheme = 'rtmp'
+      incoming_url.to_s
+    end
+  end
+
+  def find_user
+    key = URI::parse(request_params[:url].to_s).path.split('/').last
+    @user = User.find_by!(stream_key: key)
   end
 end

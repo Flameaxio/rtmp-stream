@@ -398,7 +398,7 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
-core-js@^3.26.1:
+core-js@^3.16.3:
   version "3.30.2"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.30.2.tgz#6528abfda65e5ad728143ea23f7a14f0dcf503fc"
   integrity sha512-uBJiDmwqsbJCWHAwjrx3cvjbMXP7xD72Dmsn5LOJpiRmE3WbBbN5rCqQ2Qh6Ek6/eOrjlWngEynBWo4VxerQhg==
@@ -411,11 +411,6 @@ cross-spawn@^7.0.2:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
-
-custom-event-polyfill@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/custom-event-polyfill/-/custom-event-polyfill-1.0.7.tgz#9bc993ddda937c1a30ccd335614c6c58c4f87aee"
-  integrity sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==
 
 debug@^3.2.7:
   version "3.2.7"
@@ -1186,11 +1181,6 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
-loadjs@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/loadjs/-/loadjs-4.2.0.tgz#2a0336376397a6a43edf98c9ec3229ddd5abb6f6"
-  integrity sha512-AgQGZisAlTPbTEzrHPb6q+NYBMD+DP9uvGSIjSUM5uG+0jG15cb8axWpxuOIqrmQjn6scaaH8JwloiP27b2KXA==
-
 locate-path@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-6.0.0.tgz#55321eb309febbc59c4801d931a72452a681d286"
@@ -1308,6 +1298,14 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
+ovenplayer@^0.10.29:
+  version "0.10.29"
+  resolved "https://registry.yarnpkg.com/ovenplayer/-/ovenplayer-0.10.29.tgz#7a32322374a04f4387840986734dc54f6356f71b"
+  integrity sha512-mnHsef3S3ooYYJIFdI4BHuK+SLB42Z0LVmQq22bAwWO8VHU6pUcsA61rFfGyuQUtRk0XMDMhK33Fnasjl8PItQ==
+  dependencies:
+    core-js "^3.16.3"
+    whatwg-fetch "^3.6.2"
+
 p-limit@^3.0.2:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-3.1.0.tgz#e1daccbe78d0d1388ca18c64fea38e3e57e3706b"
@@ -1359,17 +1357,6 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.3.1:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
-plyr@^3.7.8:
-  version "3.7.8"
-  resolved "https://registry.yarnpkg.com/plyr/-/plyr-3.7.8.tgz#b79bccc23687705b5d9a283b2a88c124bf7471ed"
-  integrity sha512-yG/EHDobwbB/uP+4Bm6eUpJ93f8xxHjjk2dYcD1Oqpe1EcuQl5tzzw9Oq+uVAzd2lkM11qZfydSiyIpiB8pgdA==
-  dependencies:
-    core-js "^3.26.1"
-    custom-event-polyfill "^1.0.7"
-    loadjs "^4.2.0"
-    rangetouch "^2.0.1"
-    url-polyfill "^1.1.12"
-
 postcss@^8.4.23:
   version "8.4.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.23.tgz#df0aee9ac7c5e53e1075c24a3613496f9e6552ab"
@@ -1405,11 +1392,6 @@ queue-microtask@^1.2.2:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
-
-rangetouch@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/rangetouch/-/rangetouch-2.0.1.tgz#c01105110fd3afca2adcb1a580692837d883cb70"
-  integrity sha512-sln+pNSc8NGaHoLzwNBssFSf/rSYkqeBXzX1AtJlkJiUaVSJSbRAWJk+4omsXkN+EJalzkZhWQ3th1m0FpR5xA==
 
 readdirp@~3.6.0:
   version "3.6.0"
@@ -1649,11 +1631,6 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
-url-polyfill@^1.1.12:
-  version "1.1.12"
-  resolved "https://registry.yarnpkg.com/url-polyfill/-/url-polyfill-1.1.12.tgz#6cdaa17f6b022841b3aec0bf8dbd87ac0cd33331"
-  integrity sha512-mYFmBHCapZjtcNHW0MDq9967t+z4Dmg5CJ0KqysK3+ZbyoNOWQHksGCTWwDhxGXllkWlOc10Xfko6v4a3ucM6A==
-
 vite-plugin-full-reload@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/vite-plugin-full-reload/-/vite-plugin-full-reload-1.0.5.tgz#6cddfa94e51909843bc7156ab728dbac972b8560"
@@ -1688,6 +1665,11 @@ vite@^4.3.7:
     rollup "^3.21.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+whatwg-fetch@^3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
+  integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==
 
 which-boxed-primitive@^1.0.2:
   version "1.0.2"
