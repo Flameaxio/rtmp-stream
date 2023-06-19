@@ -16,6 +16,7 @@ class Api::V1::StreamsController < Api::ApplicationApiController
 
     UPDATE_PATHS[request_params[:status]].call(@user)
 
+    Rails.logger.info("Routing to: #{stream_url}")
     render(json: { allowed: true, new_url: stream_url }, status: :ok)
   end
 
