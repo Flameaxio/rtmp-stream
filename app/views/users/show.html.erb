@@ -2,7 +2,7 @@
 
 <%= turbo_stream_from(@user, :messages) %>
 
-<div class="row stream" data-controller="stream" data-stream-handle-value="<%= @user.handle %>">
+<div class="row stream" data-controller="stream" data-stream-stream-url-value="<%= stream_url(@user) %>">
     <video class="col s11" id="video" controls crossorigin playsinline poster="<%= vite_asset_path('images/default_thumbnail.webp') %>"></video>
   <div class="col s1">
     <div class="chat right-align">

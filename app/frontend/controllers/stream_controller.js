@@ -2,7 +2,7 @@ import { Controller } from '@hotwired/stimulus'
 import OvenPlayer from 'ovenplayer'
 
 export default class extends Controller {
-  static values = { handle: String }
+  static values = { streamUrl: String }
 
   connect() {
     this.loadVideo()
@@ -17,7 +17,6 @@ export default class extends Controller {
   }
 
   loadVideo() {
-    console.log(`ws://127.0.0.1:3333/app/${this.handleValue}/webrtc`)
     OvenPlayer.create('video', {
       autoStart: true,
       autoFallback: true,
@@ -25,7 +24,7 @@ export default class extends Controller {
       sources: [
         {
           type: 'webrtc',
-          file: `ws://127.0.0.1:3333/app/${this.handleValue}/webrtc`,
+          file: this.streamUrlValue,
         },
       ],
     })

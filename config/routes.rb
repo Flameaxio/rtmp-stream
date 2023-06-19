@@ -14,4 +14,8 @@ Rails.application.routes.draw do
   direct :thumbnail do |model|
     "#{request.protocol}#{request.host}:20080/app/#{model.handle}/thumb.jpg"
   end
+
+  direct :stream do |model|
+    "ws://#{request.host}:3333/app/#{model.handle}/webrtc"
+  end
 end
